@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  flex-basis: 95%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 900px;
+}
+
+::ng-deep div.mat-select-panel {
+  max-width: 500px;
+  font-size: 10px;
+}
+
+::ng-deep .mat-select-panel mat-option.mat-option {
+  margin: 1rem 0;
+  overflow: visible;
+  line-height: initial;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.mat-option-text.mat-option-text {
+  white-space: normal;
+}
+
+form {
+  min-width: 300px;
+}
+
+.exerciseContainer {
+  margin-bottom: 40px;
+}
+
+.durationMarginRight {
+  margin-right: 20px;
+}
+
+::ng-deep .mat-optgroup-label {
+  background-color: rgb(219, 239, 252) !important;
+  font-weight: bold !important;
+}

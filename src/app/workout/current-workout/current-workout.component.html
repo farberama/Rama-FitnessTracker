@@ -1,0 +1,21 @@
+<ng-container *ngIf="activeWorkout$ | async as activeworkout">
+  <section fxFlex fxLayout="column" fxLayoutAlign="center stretch">
+    <h2 style="text-align: center">{{ activeworkout.name }}</h2>
+    <div *ngIf="workoutMode$ | async" fxLayoutAlign="center center">
+      next activity:
+      {{
+        currentExerciseIndex + 1 < activeworkout.exercises.length
+          ? activeworkout.exercises[currentExerciseIndex + 1].specificEx != null
+            ? activeworkout.exercises[currentExerciseIndex + 1].specificEx
+            : activeworkout.exercises[currentExerciseIndex + 1].type
+          : 'none'
+      }}
+      <br />
+      Total Duration {{ activeworkout.totalDuration }}
+    </div>
+    <app-current-exercise *ngIf="workoutMode$ | async"></app-current-exercise>
+    <app-workout-complete
+      *ngIf="!(workoutMode$ | async)"
+    ></app-workout-complete>
+  </section>
+</ng-container>

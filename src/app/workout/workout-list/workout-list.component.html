@@ -1,0 +1,21 @@
+<h2 fxFlex="95%">My Workouts</h2>
+<mat-tab-group fxFlexFill dynamicHeight="true" mat-align-tabs="center">
+  <mat-tab label="Workouts">
+    <div
+      class="workoutList"
+      fxLayout="row wrap"
+      fxLayoutAlign="center center"
+      fxFlex
+    >
+      <mat-accordion fxFlex="100%">
+        <app-workout-item
+          *ngFor="let workout of workouts$ | async"
+          [workoutId]="workout.id"
+        ></app-workout-item>
+      </mat-accordion>
+    </div>
+  </mat-tab>
+  <mat-tab label="Workout History">
+    <app-workout-history></app-workout-history>
+  </mat-tab>
+</mat-tab-group>

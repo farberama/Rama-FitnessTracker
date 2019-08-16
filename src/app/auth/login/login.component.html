@@ -1,0 +1,52 @@
+<section class="login-form">
+  <form
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxLayoutGap="10px"
+    (ngSubmit)="onSubmit(form)"
+    #form="ngForm"
+  >
+    <mat-form-field>
+      <input
+        email
+        required
+        type="email"
+        matInput
+        placeholder="Email Address"
+        ngModel
+        name="email"
+        #email="ngModel"
+      />
+      <mat-error *ngIf="email.hasError('required')"
+        >Email is required</mat-error
+      >
+      <mat-error *ngIf="!email.hasError('required') && email.invalid"
+        >Email is invalid</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field hintLabel="Minimum of 6 chars">
+      <input
+        required
+        minlength="6"
+        type="password"
+        matInput
+        placeholder="Password"
+        ngModel
+        name="password"
+        #pwInput="ngModel"
+      />
+      <mat-hint align="end"> {{ pwInput.value?.length }} chars</mat-hint>
+      <mat-error>Password must be at least 6 chars</mat-error>
+    </mat-form-field>
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="form.invalid"
+      *ngIf="!(isLoading | async)"
+    >
+      Submit
+    </button>
+    <mat-spinner *ngIf="isLoading | async"></mat-spinner>
+  </form>
+</section>

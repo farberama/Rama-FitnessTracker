@@ -1,0 +1,24 @@
+<mat-expansion-panel class="mat-elevation-z0">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ workout.name }}
+    </mat-panel-title>
+    <mat-panel-description> </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <div>Total Workout Duration: {{ workout.totalDuration }}</div>
+  <div>Total Calories Burned: {{ workout.totalCalories }}</div>
+  <mat-action-row fxLayoutGap="5px">
+    <button type="button" color="primary" mat-flat-button (click)="onClick()">
+      <mat-icon>list_altw</mat-icon> Workout Details
+    </button>
+    <button
+      type="button"
+      mat-flat-button
+      color="warn"
+      (click)="onDelete(workout.id)"
+    >
+      <mat-icon>delete_outline</mat-icon> Delete Workout
+    </button>
+  </mat-action-row>
+</mat-expansion-panel>

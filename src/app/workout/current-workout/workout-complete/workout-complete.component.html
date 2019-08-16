@@ -1,0 +1,46 @@
+<div
+  fxFlexFill
+  fxLayout="column"
+  fxLayoutAlign="center stretch"
+  *ngIf="activeWorkout"
+>
+  <p fxFlexAlign="center" [ngStyle]="setStateStyle()">
+    {{ activeWorkout.state | titlecase }}
+  </p>
+  <p style="text-align: center">
+    Workout Duration: {{ activeWorkout.totalDuration }} Minutes<br />
+    Calories Burned: {{ activeWorkout.totalCalories }}
+  </p>
+  <div
+    fxFlex
+    fxLayout="column"
+    fxLayout.gt-xs="row wrap"
+    fxLayoutGap="10px"
+    fxLayoutAlign="center"
+  >
+    <!-- <button
+      fxFlex.xs="100"
+      mat-flat-button
+      class="greenBackground"
+      (click)="restartExercise()"
+    >
+      <mat-icon>replay</mat-icon> Restart
+    </button> -->
+    <button
+      fxFlex.xs="100"
+      mat-flat-button
+      color="primary"
+      [routerLink]="['/workouts/details', activeWorkout.id]"
+    >
+      <mat-icon>list_alt</mat-icon> {{ activeWorkout.name }} Details
+    </button>
+    <button
+      fxFlex.xs="100"
+      mat-flat-button
+      color="primary"
+      (click)="backToWorkoutList()"
+    >
+      <mat-icon>arrow_back</mat-icon> Back to My Workouts
+    </button>
+  </div>
+</div>

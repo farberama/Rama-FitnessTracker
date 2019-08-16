@@ -1,0 +1,45 @@
+<section fxLayout="column" fxLayoutAlign="space-between stretch">
+  <h3 *ngIf="currentExercise" style="text-align: center">
+    Current Activity:
+    {{
+      currentExercise.specificEx != null
+        ? currentExercise.specificEx
+        : currentExercise.type
+    }}
+  </h3>
+  <h2 *ngIf="ready" style="text-align: center">
+    <em>Get Ready...</em><br />
+    <span style="font-size: 3em">{{ ready }}</span>
+  </h2>
+  <h4 *ngIf="!ready" style="text-align: center">Progress:</h4>
+  <mat-progress-spinner
+    fxFlexAlign="center"
+    *ngIf="ready === 0"
+    mode="determinate"
+    [value]="progress"
+    color="accent"
+  ></mat-progress-spinner>
+  <h4 *ngIf="progress < 100" style="text-align: center">
+    Time remaining:
+    {{ minutesRemaining | number: '2.0-0' }}:{{
+      (secondsRemaining < 60 ? secondsRemaining : 0) | number: '2.0-0'
+    }}
+    <span>{{ message }}</span>
+  </h4>
+  <h4 *ngIf="progress >= 100" style="text-align: center">{{ message }}</h4>
+  <section
+    *ngIf="progress < 100"
+    fxFlex
+    fxLayout="column"
+    fxLayout.gt-xs="row wrap"
+    fxLayoutGap="10px"
+    fxLayoutAlign="center"
+  >
+    <button fxFlex.xs="100" mat-flat-button color="accent" (click)="onPause()">
+      <mat-icon>pause_circle_outline</mat-icon> Pause
+    </button>
+    <button fxFlex.xs="100" mat-flat-button color="warn" (click)="onCancelWO()">
+      <mat-icon>highlight_off</mat-icon> Quit Workout
+    </button>
+  </section>
+</section>

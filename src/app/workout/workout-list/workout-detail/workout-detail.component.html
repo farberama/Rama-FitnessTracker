@@ -1,0 +1,59 @@
+<mat-card *ngIf="workout" fxLayout="column" fxFlex="100">
+  <mat-card-title>{{ workout.name }}</mat-card-title>
+  <mat-card-subtitle>
+    Workout Duration: {{ workout.totalDuration }}<br />
+    Total Calories Burned: {{ workout.totalCalories }}<br />
+    Last Attempted:
+    <span *ngIf="workout.state"
+      >{{ workout.state }} on {{ workout.date | date }}</span
+    >
+    <span *ngIf="!workout.state">never</span>
+  </mat-card-subtitle>
+  <mat-card-content>
+    <div *ngIf="workout.exercises">
+      <h3>Exercises</h3>
+      <table>
+        <thead>
+          <th>Exercise</th>
+          <th>Duration (minutes)</th>
+        </thead>
+        <tr *ngFor="let exercise of workout.exercises">
+          <td>
+            <span *ngIf="exercise.specificEx">{{ exercise.specificEx }}</span
+            ><span *ngIf="!exercise.specificEx"
+              >{{ exercise.category }}: {{ exercise.type }}</span
+            >
+          </td>
+          <td>{{ exercise.duration }}</td>
+        </tr>
+      </table>
+
+      <div></div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions
+    align="end"
+    fxLayout="column"
+    fxLayout.gt-xs="row"
+    fxLayoutGap="5px"
+  >
+    <button
+      class="greenBackground"
+      type="button"
+      mat-flat-button
+      (click)="onStartWorkout()"
+    >
+      <mat-icon>play_circle_outline</mat-icon> Begin Workout
+    </button>
+    <button mat-flat-button color="accent" (click)="onStartEdit()">
+      <mat-icon>edit</mat-icon> Edit Workout
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      [routerLink]="['/workouts/my-workouts']"
+    >
+      <mat-icon>arrow_back</mat-icon> Back to My Workouts
+    </button>
+  </mat-card-actions>
+</mat-card>

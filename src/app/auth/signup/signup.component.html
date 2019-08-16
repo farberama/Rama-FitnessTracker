@@ -1,0 +1,97 @@
+<section class="signup-form">
+  <form
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxLayoutGap="10px"
+    (ngSubmit)="onSubmit(form)"
+    #form="ngForm"
+  >
+    <mat-form-field>
+      <input
+        email
+        required
+        type="email"
+        matInput
+        placeholder="Email Address (used to log in)"
+        ngModel
+        name="email"
+        #email="ngModel"
+      />
+      <mat-error *ngIf="email.hasError('required')"
+        >Email is required</mat-error
+      >
+      <mat-error *ngIf="!email.hasError('required') && email.invalid"
+        >Email is invalid</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field hintLabel="Minimum of 6 chars">
+      <input
+        required
+        minlength="6"
+        type="password"
+        matInput
+        placeholder="Password"
+        ngModel
+        name="password"
+        #pwInput="ngModel"
+      />
+      <mat-hint align="end"> {{ pwInput.value?.length }} chars</mat-hint>
+      <mat-error>Password must be at least 6 chars</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        required
+        type="text"
+        matInput
+        placeholder="Name to be displayed in app"
+        ngModel
+        name="name"
+        #name="ngModel"
+      />
+      <mat-error *ngIf="name.invalid"
+        >Name is required</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        required
+        type="number"
+        matInput
+        placeholder="weight in lbs (used to calculate calories burned)"
+        ngModel
+        name="weight"
+        #weight="ngModel"
+      />
+      <mat-error *ngIf="weight.invalid"
+        >Weight is required</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        [matDatepicker]="birthday"
+        placeholder="Enter your birthday (must be 18 or older)"
+        [max]="maxDate"
+        ngModel
+        #birthday="ngModel"
+        name="birthday"
+        required
+      />
+      <mat-datepicker-toggle matSuffix [for]="birthday"></mat-datepicker-toggle>
+      <mat-datepicker #birthday></mat-datepicker>
+    </mat-form-field>
+    <mat-checkbox required ngModel #agree="ngModel" name="agree"
+      >Agree to Terms and Conditions</mat-checkbox
+    >
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="form.invalid"
+      *ngIf="!isLoading"
+    >
+      Submit
+    </button>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </form>
+</section>

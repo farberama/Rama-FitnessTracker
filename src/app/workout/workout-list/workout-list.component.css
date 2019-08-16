@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  flex-basis: 95%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 900px;
+  justify-content: center;
+}
+
+.workoutList {
+  max-width: 900px;
+}

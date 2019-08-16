@@ -1,0 +1,50 @@
+<mat-toolbar color="primary">
+  <div fxFlex="100" fxLayout="row" fxLayoutAlign="start center">
+    <div fxHide.gt-xs>
+      <button mat-icon-button (click)="onToggleSidenav()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <div><a routerLink="/">Rama Fitness Tracker</a></div>
+    <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
+      <ul fxLayout="row" fxLayoutGap="15px" class="navigation-items">
+        <li><a routerLink="/">Home</a></li>
+        <li *ngIf="!(isAuthenticated$ | async)">
+          <a routerLink="/signup">Register</a>
+        </li>
+        <li *ngIf="!(isAuthenticated$ | async)">
+          <a routerLink="/login">Login</a>
+        </li>
+        <li *ngIf="isAuthenticated$ | async">
+          <a [matMenuTriggerFor]="menu" style="cursor: pointer">Workouts</a>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/workouts/my-workouts">
+              <mat-icon>fitness_center</mat-icon>My Workouts
+            </button>
+            <button mat-menu-item routerLink="/workouts/add">
+              <mat-icon>add_circle_outline</mat-icon>Create A New Workout
+            </button>
+            <button mat-menu-item routerLink="/workouts/my-workout-history">
+              <mat-icon>history</mat-icon>My Workout History
+            </button>
+          </mat-menu>
+        </li>
+        <!-- <li *ngIf="isAuthenticated$ | async">
+              <a routerLink="/training">Exercises</a>
+            </li> -->
+        <li *ngIf="isAuthenticated$ | async">
+          Hi,
+          <a
+            [matMenuTriggerFor]="usermenu"
+            style="cursor: pointer"
+            *ngIf="user$ | async; let user"
+            >{{ user.displayName }}</a
+          >
+          <mat-menu #usermenu="matMenu">
+            <button mat-menu-item (click)="onLogout()">Logout</button>
+          </mat-menu>
+        </li>
+      </ul>
+    </div>
+  </div>
+</mat-toolbar>

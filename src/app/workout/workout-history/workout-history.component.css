@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  flex-basis: 95%;
+  flex-direction: row;
+  max-width: 900px;
+  flex-wrap: wrap;
+}
+
+mat-cell {
+  padding: 3px;
+}
+
+.smText {
+  font-size: 0.8em;
+}

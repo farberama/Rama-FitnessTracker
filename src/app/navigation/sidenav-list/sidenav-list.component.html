@@ -1,0 +1,56 @@
+<mat-nav-list>
+  <a mat-list-item routerLink="/" (click)="onCloseSidenav()"
+    ><mat-icon>home</mat-icon> Home</a
+  >
+  <a
+    *ngIf="!(isAuthenticated$ | async)"
+    mat-list-item
+    routerLink="/signup"
+    (click)="onCloseSidenav()"
+    ><mat-icon>person_add</mat-icon> Register</a
+  >
+  <a
+    *ngIf="!(isAuthenticated$ | async)"
+    mat-list-item
+    routerLink="/login"
+    (click)="onCloseSidenav()"
+    ><mat-icon>exit_to_app</mat-icon> Login</a
+  >
+  <!-- <a mat-list-item style="cursor: pointer" (click)="isExpanded = !isExpanded"
+    ><mat-icon>fitness_center</mat-icon> Workouts</a
+  >
+  <div *ngIf="isExpanded"> -->
+  <a
+    mat-list-item
+    routerLink="/workouts/my-workouts"
+    (click)="onCloseSidenav()"
+  >
+    <mat-icon>fitness_center</mat-icon>My Workouts</a
+  >
+  <a mat-list-item (click)="onCloseSidenav()" routerLink="/workouts/add">
+    <mat-icon>add_circle_outline</mat-icon>Create a Workout</a
+  >
+  <a
+    mat-list-item
+    (click)="onCloseSidenav()"
+    routerLink="/workouts/my-workout-history"
+  >
+    <mat-icon>history</mat-icon>My Workout History</a
+  >
+  <!-- </div> -->
+  <!-- <a
+    *ngIf="isAuthenticated$ | async"
+    mat-list-item
+    routerLink="/training"
+    (click)="onCloseSidenav()"
+    ><mat-icon>fitness_center</mat-icon> Execises</a
+  > -->
+  <a
+    *ngIf="isAuthenticated$ | async"
+    role="button"
+    mat-list-item
+    (click)="onLogout()"
+  >
+    <mat-icon>power_settings_new</mat-icon> Logout
+  </a>
+</mat-nav-list>

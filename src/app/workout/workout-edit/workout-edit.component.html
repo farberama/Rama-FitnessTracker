@@ -1,0 +1,168 @@
+<section fxLayout="row" fxLayoutAlign="center center" fxFlex="100">
+  <form
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    fxFlex="95%"
+    *ngIf="workoutForm"
+    [formGroup]="workoutForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-card
+      fxFlex="100%"
+      fxLayout.gt-xs="row wrap"
+      fxLayoutAlign.gt-xs="center center"
+      fxFlex.gt-xs="100%"
+      fxLayout="column"
+      fxLayoutAlign="center stretch"
+    >
+      <mat-card-title
+        fxFlex="100%"
+        fxLayoutAlign="center"
+        *ngIf="!(editMode$ | async)"
+        >Create a New Workout Program</mat-card-title
+      >
+      <mat-card-title
+        fxFlex="100%"
+        fxLayoutAlign="center"
+        *ngIf="editMode$ | async"
+        >Edit Your Workout Program</mat-card-title
+      >
+      <mat-card-subtitle fxFlex="100%"
+        >Total Workout Duration: {{ totalDuration }}<br />
+        Total Workout Calories: {{ totalCalories }}
+      </mat-card-subtitle>
+      <mat-card-content
+        fxFlex="100%"
+        fxLayout="column"
+        fxLayoutAlign="center"
+        fxLayoutGap="20px"
+      >
+        <mat-form-field>
+          <input matInput placeholder="Workout Name" formControlName="name" />
+        </mat-form-field>
+        <div
+          fxFlex="100%"
+          formArrayName="exercises"
+          fxLayoutAlign="center stretch"
+          fxLayout="column"
+        >
+          <div
+            *ngFor="let exerciseCtr of exerciseControls; let i = index"
+            [formGroupName]="i"
+            fxFlex="100"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+            class="exerciseContainer"
+            fxLayoutGap="10px"
+          >
+            <div
+              fxFlex
+              fxLayout="row wrap"
+              fxLayoutAlign="space-between center"
+            >
+              <mat-form-field *ngIf="!(isLoading$ | async)" fxFlex="100">
+                <mat-label>Exercise</mat-label>
+                <mat-select formControlName="code">
+                  <mat-optgroup
+                    *ngFor="let group of compendium"
+                    [label]="group.category"
+                  >
+                    <mat-option
+                      *ngFor="let exercise of group.exercises"
+                      [value]="exercise.code"
+                    >
+                      {{ exercise.type | titlecase }}
+                    </mat-option>
+                  </mat-optgroup>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field
+                fxFlex="100"
+                fxFlex.gt-xs="0 0 calc(33.3% - 28px)"
+              >
+                <input
+                  matInput
+                  placeholder="Specific Exercise"
+                  formControlName="specificEx"
+                />
+                <mat-hint>Optional</mat-hint>
+              </mat-form-field>
+              <mat-form-field
+                fxFlex="0 0 calc(50% - 32px)"
+                fxFlex.gt-xs="0 0 calc(33.3% - 28px)"
+                ngClass.xs="durationMarginRight"
+              >
+                <input
+                  matInput
+                  placeholder="Duration in Minutes"
+                  formControlName="duration"
+                />
+                <mat-hint>ex: 1, 0.5, 0.75, 1.25, etc</mat-hint>
+              </mat-form-field>
+              <mat-form-field
+                fxFlex="0 0 calc(50% - 32px)"
+                fxFlex.gt-xs="0 0 calc(33.3% - 28px)"
+              >
+                <input
+                  matInput
+                  placeholder="Order"
+                  formControlName="order"
+                  type="number"
+                />
+                <mat-hint>1 = first, 2 = second, etc</mat-hint>
+              </mat-form-field>
+            </div>
+            <button
+              fxFlex="0 0 40px"
+              matTooltip="Delete this exercise"
+              type="button"
+              mat-icon-button
+              color="warn"
+              (click)="onRemoveExercise(i)"
+            >
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div fxLayoutAlign="end center">
+          <button
+            type="button"
+            mat-flat-button
+            color="accent"
+            (click)="onAddExercise()"
+          >
+            <mat-icon>playlist_add</mat-icon> Add an Exercise
+          </button>
+        </div>
+        <mat-spinner
+          *ngIf="isLoading$ | async"
+          style="margin:auto"
+        ></mat-spinner>
+      </mat-card-content>
+      <mat-card-actions
+        fxLayout="column"
+        fxLayout.gt-xs="row"
+        fxLayoutGap="5px"
+        *ngIf="!(isLoading$ | async)"
+      >
+        <button
+          type="submit"
+          mat-flat-button
+          color="primary"
+          [disabled]="workoutForm.invalid"
+        >
+          <mat-icon>save_alt</mat-icon> Save
+        </button>
+        <button
+          fxFlex
+          type="button"
+          mat-stroked-button
+          color="accent"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</section>
