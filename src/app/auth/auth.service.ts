@@ -4,16 +4,16 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
-import { TrainingService } from './../training/training.service';
+import { WorkoutService } from './../workout/workout.service';
 import { UIService } from '../shared/ui.service';
 import * as fromApp from '../app.reducer';
 import * as UIActions from '../shared/ui.actions';
 import * as AuthActions from './auth.actions';
 import * as WorkoutActions from './../workout/workout.actions';
 import { User } from './user.model';
-import { tap, switchMap, map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +30,8 @@ export class AuthService {
   constructor(
     private fireAuth: AngularFireAuth,
     private router: Router,
-    private trainingService: TrainingService,
     private uiService: UIService,
+    private workoutService: WorkoutService,
     private store: Store<fromApp.State>,
     private firestore: AngularFirestore
   ) {
@@ -70,8 +70,8 @@ export class AuthService {
           console.log('this user', this.user);
           this.router.navigate(['/']);
         } else {
-          this.trainingService.cancelSubscriptions();
           this.store.dispatch(new AuthActions.SetUnauthenticated());
+          this.workoutService.cancelSubscriptions();
         }
       });
   }

@@ -1,18 +1,19 @@
-import { AuthService } from 'src/app/auth/auth.service';
 import { FormArray, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription, Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 
+import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'src/app/auth/user.model';
-import { Exercise, WOExercise } from './../exercise.model';
+import { WOExercise } from './../exercise.model';
 import { Workout } from './../workout.model';
 import * as fromApp from '../../app.reducer';
 import * as UIActions from './../../shared/ui.actions';
 import * as WorkoutActions from './../workout.actions';
-import { compendium, CompExercise } from '../compendium2';
+import { CompExercise, Compendium } from '../compendium2';
+
+import compendium from './../../../assets/data/compendium.json';
 
 @Component({
   selector: 'app-workout-edit',
@@ -20,7 +21,7 @@ import { compendium, CompExercise } from '../compendium2';
   styleUrls: ['./workout-edit.component.css']
 })
 export class WorkoutEditComponent implements OnInit, OnDestroy {
-  compendium = compendium;
+  compendium: Compendium[] = compendium.compExercises;
   isLoading$: Observable<boolean>;
   availableExercises: CompExercise[] = [];
   workout: Workout;

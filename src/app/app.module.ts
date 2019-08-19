@@ -20,7 +20,6 @@ import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { environment } from '../environments/environment';
 import { reducers } from './app.reducer';
-import { TrainingModule } from './training/training.module';
 import { WorkoutModule } from './workout/workout.module';
 
 @NgModule({
@@ -40,7 +39,6 @@ import { WorkoutModule } from './workout/workout.module';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AuthModule,
-    TrainingModule,
     WorkoutModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),

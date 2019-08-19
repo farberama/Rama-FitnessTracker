@@ -6,7 +6,7 @@ import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { User } from '../../auth/user.model';
 import { Workout } from '../workout.model';
 import { WorkoutService } from './../workout.service';
-import { Exercise } from 'src/app/training/exercise.model';
+import { Exercise } from '../exercise.model';
 import * as fromApp from '../../app.reducer';
 import * as UIActions from './../../shared/ui.actions';
 
