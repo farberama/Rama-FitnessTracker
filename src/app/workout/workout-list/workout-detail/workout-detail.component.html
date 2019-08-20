@@ -1,7 +1,7 @@
 <mat-card *ngIf="workout" fxLayout="column" fxFlex="100">
   <mat-card-title>{{ workout.name }}</mat-card-title>
   <mat-card-subtitle>
-    Workout Duration: {{ workout.totalDuration }}<br />
+    Workout Duration: {{ workout.totalDuration | convertDuration }}<br />
     Total Calories Burned: {{ workout.totalCalories }}<br />
     Last Attempted:
     <span *ngIf="workout.state"
@@ -15,7 +15,7 @@
       <table>
         <thead>
           <th>Exercise</th>
-          <th>Duration (minutes)</th>
+          <th>Duration<br />(hh:mm:ss)</th>
         </thead>
         <tr *ngFor="let exercise of workout.exercises">
           <td>
@@ -24,7 +24,7 @@
               >{{ exercise.category }}: {{ exercise.type }}</span
             >
           </td>
-          <td>{{ exercise.duration }}</td>
+          <td>{{ exercise.duration | convertDuration }}</td>
         </tr>
       </table>
 

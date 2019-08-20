@@ -14,6 +14,7 @@ import { WorkoutItemComponent } from './workout-list/workout-item/workout-item.c
 import { WorkoutDetailComponent } from './workout-list/workout-detail/workout-detail.component';
 import { CurrentExerciseComponent } from './current-workout/current-exercise/current-exercise.component';
 import { WorkoutCompleteComponent } from './current-workout/workout-complete/workout-complete.component';
+import { ConvertDurationPipe } from '../convertMinutes.pipe';
 // import { workoutReducer } from './workout.reducer';
 
 @NgModule({
@@ -28,7 +29,8 @@ import { WorkoutCompleteComponent } from './current-workout/workout-complete/wor
     WorkoutItemComponent,
     WorkoutDetailComponent,
     CurrentExerciseComponent,
-    WorkoutCompleteComponent
+    WorkoutCompleteComponent,
+    ConvertDurationPipe
   ],
   imports: [
     SharedModule,

@@ -67,7 +67,6 @@ export class AuthService {
           this.store.dispatch(
             new WorkoutActions.SetUserWeight(this.user.weight)
           );
-          console.log('this user', this.user);
           this.router.navigate(['/']);
         } else {
           this.store.dispatch(new AuthActions.SetUnauthenticated());
@@ -106,7 +105,6 @@ export class AuthService {
       .then(res => {
         this.store.dispatch(new UIActions.StopLoading());
         this.uiService.dismissSnackBar();
-        console.log(res);
       })
       .catch(err => {
         this.store.dispatch(new UIActions.StopLoading());

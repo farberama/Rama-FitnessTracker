@@ -93,9 +93,11 @@ export function workoutReducer(
     case WorkoutActions.START_WORKOUT:
       const activeWorkout = {
         ...state.currentWorkout,
+        workoutId: state.currentWorkout.id,
         totalDuration: 0,
         totalCalories: 0
       };
+      delete activeWorkout.id;
       return {
         ...state,
         activeWorkout: activeWorkout,
@@ -128,6 +130,38 @@ export function workoutReducer(
         },
         activeExerciseIndex: index
       };
+    case WorkoutActions.SET_WORKOUT_CANCELED:
+      index = state.activeExerciseIndex;
+      activeExercises = [...state.activeWorkout.exercises];
+      // calculate duration and calories of most recent active exercise
+      activeExercises[index].duration = +(
+        activeExercises[index].duration * action.payload
+      ).toFixed(2);
+      activeExercises[index].calories = +(
+        ((activeExercises[index].mets * 3.5 * state.currentUserWeight) / 200) *
+        activeExercises[index].duration
+      ).toFixed(2);
+      const totalDuration =
+        state.activeWorkout.totalDuration + activeExercises[index].duration;
+      const totalCalories =
+        state.activeWorkout.totalCalories + activeExercises[index].calories;
+      index++;
+      while (index < state.activeWorkout.exercises.length) {
+        activeExercises[index].duration = 0;
+        activeExercises[index].calories = 0;
+        index++;
+      }
+
+      return {
+        ...state,
+        activeWorkout: {
+          ...state.activeWorkout,
+          totalDuration: totalDuration,
+          totalCalories: totalCalories,
+          exercises: activeExercises
+        },
+        activeExerciseIndex: index
+      };
     case WorkoutActions.SET_WORKOUT_COMPLETED:
       let workoutState = null;
       if (
@@ -144,24 +178,6 @@ export function workoutReducer(
           date: new Date(),
           state: workoutState
         }
-      };
-    case WorkoutActions.SET_WORKOUT_CANCELED:
-      index = state.activeExerciseIndex;
-      activeExercises = [...state.activeWorkout.exercises];
-
-      while (index < state.activeWorkout.exercises.length) {
-        activeExercises[index].duration = 0;
-        activeExercises[index].calories = 0;
-        index++;
-      }
-
-      return {
-        ...state,
-        activeWorkout: {
-          ...state.activeWorkout,
-          exercises: activeExercises
-        },
-        activeExerciseIndex: index
       };
     case WorkoutActions.STOP_WORKOUT:
       return {

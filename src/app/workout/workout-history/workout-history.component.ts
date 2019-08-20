@@ -22,7 +22,14 @@ export class WorkoutHistoryComponent
   implements OnInit, AfterViewInit, OnDestroy {
   history: Workout[];
   subscription: Subscription;
-  displayedColumns = ['date', 'name', 'duration', 'calories', 'state'];
+  displayedColumns = [
+    'date',
+    'name',
+    'duration',
+    'calories',
+    'state',
+    'delete'
+  ];
   // MatTableDataSource assumes an array to be passed, so no need to define it
   dataSource = new MatTableDataSource<Workout>();
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -46,6 +53,10 @@ export class WorkoutHistoryComponent
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  onDeleteWorkout(id: string) {
+    this.workoutService.deleteWorkoutFromHistory(id);
   }
 
   ngOnDestroy() {

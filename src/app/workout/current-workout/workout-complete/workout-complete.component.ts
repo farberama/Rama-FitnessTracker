@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 
-import { WOExercise } from './../../exercise.model';
 import { Workout } from './../../workout.model';
 import * as fromApp from './../../../app.reducer';
 import * as WorkoutActions from './../../workout.actions';
@@ -17,15 +16,10 @@ export class WorkoutCompleteComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   subscription2: Subscription;
   workout: Workout;
-  woexercises: WOExercise[];
   workoutMode$: Observable<boolean>;
   activeWorkout: Workout;
 
-  constructor(
-    private store: Store<fromApp.State>,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private store: Store<fromApp.State>, private router: Router) {}
 
   ngOnInit() {
     this.subscription2 = this.store
@@ -36,8 +30,6 @@ export class WorkoutCompleteComponent implements OnInit, OnDestroy {
       .select(fromApp.getCurrentWorkout)
       .subscribe(workout => {
         this.workout = workout;
-        console.log(workout.exercises);
-        this.woexercises = workout.exercises;
       });
   }
 

@@ -6,7 +6,9 @@
     <mat-panel-description> </mat-panel-description>
   </mat-expansion-panel-header>
 
-  <div>Total Workout Duration: {{ workout.totalDuration }}</div>
+  <div>
+    Total Workout Duration: {{ workout.totalDuration | convertDuration }}
+  </div>
   <div>Total Calories Burned: {{ workout.totalCalories }}</div>
   <mat-action-row fxLayoutGap="5px">
     <button type="button" color="primary" mat-flat-button (click)="onClick()">

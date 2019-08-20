@@ -150,6 +150,8 @@ export class SetWorkoutCompleted implements Action {
 
 export class SetWorkoutCanceled implements Action {
   readonly type = SET_WORKOUT_CANCELED;
+
+  constructor(public payload: number) {}
 }
 
 export class CompleteWorkout implements Action {

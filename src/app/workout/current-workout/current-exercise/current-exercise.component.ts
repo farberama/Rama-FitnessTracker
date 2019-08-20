@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 
 import { Workout } from '../../workout.model';
 import { WorkoutService } from '../../workout.service';
-import { CancelTrainingComponent } from '../cancel-training.component';
+import { CancelWorkoutComponent } from '../cancel-workout.component';
 import { WOExercise } from '../../exercise.model';
 import * as fromApp from '../../../app.reducer';
 import * as WorkoutActions from './../../workout.actions';
@@ -48,7 +48,6 @@ export class CurrentExerciseComponent implements OnInit, OnDestroy {
       .select(fromApp.getActiveExercise)
       .subscribe(exercise => {
         if (exercise) {
-          console.log(exercise);
           this.currentExercise = exercise;
           this.totalMinutes = this.currentExercise.duration;
           this.totalSeconds = this.totalMinutes * 60;
@@ -88,11 +87,12 @@ export class CurrentExerciseComponent implements OnInit, OnDestroy {
   }
 
   startExercise() {
-    console.log('progress', this.progress);
+    console.log('startExercise()');
     const step = this.totalSeconds;
     // for remaining time clock
     this.timer = setInterval(() => {
       if (this.progress >= 100) {
+        console.log('startExercise() if');
         this.stopExercise();
         this.completeExercise();
       } else {
@@ -136,8 +136,8 @@ export class CurrentExerciseComponent implements OnInit, OnDestroy {
   }
 
   cancelWorkout(progress: number) {
-    this.store.dispatch(new WorkoutActions.UpdateActiveWorkout(progress / 100));
-    this.store.dispatch(new WorkoutActions.SetWorkoutCanceled());
+    this.store.dispatch(new WorkoutActions.SetWorkoutCanceled(progress / 100));
+    // this.store.dispatch(new WorkoutActions.SetWorkoutCanceled());
   }
 
   completeWorkout() {
@@ -147,7 +147,7 @@ export class CurrentExerciseComponent implements OnInit, OnDestroy {
 
   onCancelWO() {
     this.stopExercise();
-    const dialogRef = this.dialog.open(CancelTrainingComponent, {
+    const dialogRef = this.dialog.open(CancelWorkoutComponent, {
       data: { progress: this.progress }
     });
 

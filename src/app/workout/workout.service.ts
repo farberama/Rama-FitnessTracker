@@ -98,15 +98,18 @@ export class WorkoutService implements OnDestroy {
     this.router.navigate(['workout']);
   }
 
-  deleteWorkout(id) {
-    return this.deleteCollection(
-      `users/${this.user.uid}/workouts/${id}/exercises`
-    ).then(data => {
-      this.firestore
-        .collection(`users/${this.user.uid}/workouts`)
-        .doc(id)
-        .delete();
-    });
+  deleteWorkout(id: string) {
+    return this.firestore
+      .collection(`users/${this.user.uid}/workouts`)
+      .doc(id)
+      .delete();
+  }
+
+  deleteWorkoutFromHistory(id: string) {
+    return this.firestore
+      .collection(`users/${this.user.uid}/workoutHistory`)
+      .doc(id)
+      .delete();
   }
 
   private async deleteCollection(path: string) {
@@ -122,20 +125,6 @@ export class WorkoutService implements OnDestroy {
 
   quitWorkout() {
     this.store.dispatch(new WorkoutActions.StopWorkout());
-  }
-
-  private addWorkoutsToDB() {
-    console.log('DB');
-    this.store
-      .select(fromApp.getActiveWorkout)
-      .pipe(take(1))
-      .subscribe(workout => {
-        if (workout.date) {
-          this.firestore
-            .collection(`users/${this.user.uid}/workoutHistory`)
-            .add(workout);
-        }
-      });
   }
 
   cancelSubscriptions() {

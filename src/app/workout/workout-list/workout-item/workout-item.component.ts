@@ -32,7 +32,6 @@ export class WorkoutItemComponent implements OnInit, OnDestroy {
       .subscribe(workouts => {
         const index = workouts.findIndex(wo => wo.id === this.workoutId);
         this.workout = workouts[index];
-        console.log(this.workout);
       });
   }
 

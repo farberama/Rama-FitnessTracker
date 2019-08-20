@@ -46,9 +46,11 @@ export class WorkoutDetailComponent implements OnInit, OnDestroy {
       .subscribe(workout => {
         this.workout = workout;
         const woHist = this.workoutHistory.find(wo => wo.id === workout.id);
-        const date: any = woHist.date;
-        this.workout.date = new Date(date.seconds * 1000);
-        this.workout.state = woHist.state;
+        if (woHist) {
+          const date: any = woHist.date;
+          this.workout.date = new Date(date.seconds * 1000);
+          this.workout.state = woHist.state;
+        }
       });
   }
 

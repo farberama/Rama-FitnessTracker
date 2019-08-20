@@ -1,4 +1,4 @@
-<mat-form-field fxFlex="100">
+<mat-form-field fxFlex="100" style="z-index: -1">
   <input
     matInput
     type="text"
@@ -25,10 +25,12 @@
     <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="duration">
-    <mat-header-cell *matHeaderCellDef>Total Duration</mat-header-cell>
-    <mat-cell *matCellDef="let element"
-      >{{ element.totalDuration }} min</mat-cell
+    <mat-header-cell *matHeaderCellDef
+      >Total Duration<br />(hh:mm:ss)</mat-header-cell
     >
+    <mat-cell *matCellDef="let element">{{
+      element.totalDuration | convertDuration
+    }}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="calories">
     <mat-header-cell *matHeaderCellDef>Calories Burned</mat-header-cell>
@@ -40,7 +42,21 @@
     <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
     <mat-cell *matCellDef="let element">{{ element.state }}</mat-cell>
   </ng-container>
-
+  <ng-container matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Delete</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <button
+        fxFlex="0 0 40px"
+        matTooltip="Delete this exercise"
+        type="button"
+        mat-icon-button
+        color="warn"
+        (click)="onDeleteWorkout(element.id)"
+      >
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 </mat-table>

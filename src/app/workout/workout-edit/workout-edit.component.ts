@@ -98,8 +98,6 @@ export class WorkoutEditComponent implements OnInit, OnDestroy {
       this.initForm();
       this.store.dispatch(new UIActions.StopLoading());
     }
-
-    console.log(this.availableExercises);
   }
 
   initForm() {
@@ -206,14 +204,11 @@ export class WorkoutEditComponent implements OnInit, OnDestroy {
       const thisEx = this.availableExercises.find(
         ex => ex.code === exercise.code
       );
-
-      console.log(thisEx);
       exercise.code = thisEx.code;
       exercise.category = thisEx.category;
       exercise.type = thisEx.type;
       exercise.mets = +thisEx.mets;
       exercise.duration = +exercise.duration;
-      console.log(exercise);
     });
 
     this.workout.name = this.workoutForm.value.name;

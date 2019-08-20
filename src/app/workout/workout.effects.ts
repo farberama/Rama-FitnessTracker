@@ -39,32 +39,28 @@ export class WorkoutEffects {
       return this.store.select(fromApp.getActiveWorkout).pipe(take(1));
     }),
     map(workout => {
-      console.log('uploading date: ', workout.date);
       this.firestore
         .collection(`users/${this.user.uid}/workoutHistory`)
         .add(workout);
       return workout;
     }),
     map(() => {
-      console.log('stopping at: ');
       return new WorkoutActions.StopWorkout();
     })
   );
 
-  @Effect()
-  fetchAvailableExercises = this.actions$.pipe(
-    ofType(WorkoutActions.FETCH_AVAILABLE_EXERCISES),
-    switchMap(() => {
-      console.log('switchmap');
-      return this.firestore
-        .collection('compendium2', ref => ref.orderBy('code', 'asc'))
-        .valueChanges();
-    }),
-    map((exercises: Exercise[]) => {
-      console.log(exercises);
-      return new WorkoutActions.SetAvailableExercises(exercises);
-    })
-  );
+  // @Effect()
+  // fetchAvailableExercises = this.actions$.pipe(
+  //   ofType(WorkoutActions.FETCH_AVAILABLE_EXERCISES),
+  //   switchMap(() => {
+  //     return this.firestore
+  //       .collection('compendium2', ref => ref.orderBy('code', 'asc'))
+  //       .valueChanges();
+  //   }),
+  //   map((exercises: Exercise[]) => {
+  //     return new WorkoutActions.SetAvailableExercises(exercises);
+  //   })
+  // );
   // .pipe(
 
   // TODO: fix error handling
@@ -88,13 +84,20 @@ export class WorkoutEffects {
         .collection(`users/${this.user.uid}/workoutHistory`, ref =>
           ref.orderBy('date', 'desc')
         )
-        .valueChanges();
+        .snapshotChanges();
+    }),
+    map(actions => {
+      return actions.map(action => {
+        const data = action.payload.doc.data() as Workout;
+        data.workoutId = data.id;
+        data.id = action.payload.doc.id;
+        return data;
+      });
     }),
     map((workouts: Workout[]) => {
       workouts.forEach(wo => {
         wo.exercises.sort(sortExercises);
       });
-      console.log(workouts);
       return new WorkoutActions.SetWorkoutHistory(workouts);
     })
   );
@@ -104,7 +107,6 @@ export class WorkoutEffects {
   fetchAvailableWorkouts = this.actions$.pipe(
     ofType(WorkoutActions.FETCH_AVAILABLE_WORKOUTS),
     switchMap((fetchData: WorkoutActions.FetchAvailableWorkouts) => {
-      console.log('switchmap');
       return this.firestore
         .collection(`users/${fetchData.payload}/workouts`)
         .snapshotChanges();
@@ -120,7 +122,6 @@ export class WorkoutEffects {
       workouts.forEach(wo => {
         wo.exercises.sort(sortExercises);
       });
-      console.log(workouts);
       return new WorkoutActions.SetAvailableWorkouts(workouts);
     })
   );
@@ -130,7 +131,6 @@ export class WorkoutEffects {
   upsertWorkout = this.actions$.pipe(
     ofType(WorkoutActions.START_ADD_WORKOUT),
     switchMap(action => {
-      console.log(action.payload.workout);
       if (!action.payload.workout.id) {
         return this.firestore
           .collection(`users/${this.user.uid}/workouts/`)
